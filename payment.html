@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .payment-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-timer {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-expired {
+            background: #ddd;
+            color: #666;
+        }
+
+        .payment-details {
+            background: #f9f6f3;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #999;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .bank-info {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 2px solid #0066cc;
+        }
+
+        .bank-info h3 {
+            color: #0066cc;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .account-number {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .bank-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bank-option-btn {
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .bank-option-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .ussd-display {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+            border: 2px solid #0066cc;
+        }
+
+        .ussd-code {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0066cc;
+            margin: 0.5rem 0;
+        }
+
+        .ussd-copy-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .ussd-copy-btn:hover {
+            background: #0052a3;
+        }
+
+        .instructions {
+            background: #fffbea;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #ffc107;
+        }
+
+        .instructions h4 {
+            color: #ff8c00;
+            margin-top: 0;
+        }
+
+        .instructions ol {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #666;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn:hover {
+            background: var(--dark-color);
+            transform: translateY(-2px);
+        }
+
+        .confirm-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f5f5f5;">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="search.html">🔍 Search</a></li>
+                <li><a href="cart.html">🛒 Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>💳 Complete Your Payment</h1>
+            <p>Finish your order by making payment through bank transfer</p>
+        </div>
+
+        <!-- Timer -->
+        <div class="payment-timer" id="timerBox">
+            <p style="margin: 0; font-size: 0.9rem;">⏱️ Payment Pending</p>
+            <div class="timer-display" id="timerDisplay">03:00</div>
+            <p style="margin: 0; font-size: 0.85rem;">Complete payment within this time</p>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="payment-details">
+            <h3 style="color: var(--primary-color); margin-top: 0;">📦 Order Summary</h3>
+            <div class="detail-row">
+                <span class="detail-label">Tracking ID:</span>
+                <span class="detail-value" id="trackingId">--</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Customer Name:</span>
+                <span id="customerName">--</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Email:</span>
+                <span id="customerEmail">--</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Total Amount:</span>
+                <span class="detail-value" id="totalAmount">₦0.00</span>
+            </div>
+        </div>
+
+        <!-- Bank Transfer Instructions -->
+        <div class="bank-info">
+            <h3>🏦 Bank Transfer Details</h3>
+            <p style="margin: 0 0 1rem 0; color: #666;">Account Number:</p>
+            
+            <div class="account-number" id="accountNumber">9133480162</div>
+            
+            <button class="copy-btn" onclick="copyAccount()" style="background: var(--primary-color); color: white; border: none; padding: 0.75rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; transition: all 0.3s ease;">📋 Copy Account Number</button>
+
+            <h4 style="margin-top: 1.5rem; color: #0066cc;">Choose Your Payment Method:</h4>
+            
+            <div class="bank-options">
+                <button class="bank-option-btn" onclick="openBankingApp()">🏦 My Bank App</button>
+                <button class="bank-option-btn" onclick="openOnlineBanking()">💻 Online Banking</button>
+            </div>
+
+            <div class="ussd-display">
+                <p style="margin: 0 0 0.5rem 0; color: #666; font-size: 0.9rem;">Or use USSD Quick Transfer:</p>
+                <div class="ussd-code" id="ussdCode">*737#</div>
+                <p style="margin: 0.5rem 0; color: #999; font-size: 0.85rem;">Dial this code on your phone to transfer instantly</p>
+                <button class="ussd-copy-btn" onclick="copyUSSD()">📋 Copy USSD Code</button>
+            </div>
+        </div>
+
+        <!-- Payment Instructions -->
+        <div class="instructions">
+            <h4>📝 How to Pay:</h4>
+            <ol>
+                <li><strong>Click "My Bank App"</strong> to open your mobile banking app</li>
+                <li><strong>Or click "Online Banking"</strong> to access your bank's website</li>
+                <li><strong>Or dial USSD code *737#</strong> for instant transfer</li>
+                <li>Transfer the total amount to account: <strong>9133480162</strong></li>
+                <li>Use your tracking ID as the transfer reference</li>
+                <li>Click "Confirm Payment" when transaction is complete</li>
+            </ol>
+        </div>
+
+        <!-- Confirm Payment Button -->
+        <button class="confirm-btn" id="confirmBtn" onclick="confirmPayment()">✅ I Have Made The Payment</button>
+
+        <!-- Status Message -->
+        <div id="statusMessage"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 3rem;">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+            <p>Contact: +234 8036355380 | Email: kayodeakano70@gmail.com</p>
+        </div>
+    </footer>
+
+    <script>
+        let timeRemaining = 180; // 3 minutes in seconds
+        let orderData = null;
+        let timerInterval = null;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function copyAccount() {
+            const accountNumber = document.getElementById('accountNumber').textContent;
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                showToast('Account number copied!', 'success');
+            });
+        }
+
+        function copyUSSD() {
+            const ussdCode = document.getElementById('ussdCode').textContent;
+            navigator.clipboard.writeText(ussdCode).then(() => {
+                showToast('USSD code copied! Dial it on your phone.', 'success');
+            });
+        }
+
+        function openBankingApp() {
+            // Opens the user's default banking app
+            // For mobile, tries to open their bank's app
+            const userAgent = navigator.userAgent.toLowerCase();
+            
+            if (userAgent.includes('android')) {
+                // Android - try popular Nigerian banks
+                const bankApps = [
+                    'com.gtco.mobileapp', // GTBank
+                    'com.access_bank.accessmobile', // Access Bank
+                    'ng.com.guaranty.guarantymobile', // Guaranty
+                    'com.ubagroup.ubamobile' // UBA
+                ];
+                
+                let appFound = false;
+                for (let app of bankApps) {
+                    window.location.href = `intent://send?#Intent;package=${app};end`;
+                    appFound = true;
+                    break;
+                }
+                
+                if (!appFound) {
+                    showToast('Please open your bank app and transfer to account: 9133480162', 'error');
+                }
+            } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+                // iOS - try popular Nigerian banks
+                showToast('Please open your bank app and transfer to account: 9133480162', 'success');
+            } else {
+                // Desktop - show message
+                showToast('Please open your bank\'s website or app to make the transfer', 'success');
+            }
+        }
+
+        function openOnlineBanking() {
+            // Opens popular Nigerian bank online banking portals
+            const bankPortals = [
+                { name: 'GTBank', url: 'https://www.gtbank.com' },
+                { name: 'Access Bank', url: 'https://www.accessbankplc.com' },
+                { name: 'Guaranty Bank', url: 'https://www.guaranty.com' },
+                { name: 'UBA', url: 'https://www.ubagroup.com' },
+                { name: 'First Bank', url: 'https://www.firstbanknigeria.com' }
+            ];
+
+            // Create a selection menu
+            let message = 'Select your bank to open their online banking portal:\n\n';
+            bankPortals.forEach((bank, index) => {
+                message += `${index + 1}. ${bank.name}\n`;
+            });
+            message += `\n0. Cancel`;
+
+            const choice = prompt(message, '1');
+            
+            if (choice && choice !== '0') {
+                const selectedIndex = parseInt(choice) - 1;
+                if (selectedIndex >= 0 && selectedIndex < bankPortals.length) {
+                    window.open(bankPortals[selectedIndex].url, '_blank');
+                    showToast(`Opening ${bankPortals[selectedIndex].name}...`, 'success');
+                }
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 4000);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('timerDisplay').textContent = formatTime(timeRemaining);
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    expirePayment();
+                }
+            }, 1000);
+        }
+
+        function expirePayment() {
+            document.getElementById('timerBox').classList.add('timer-expired');
+            document.getElementById('timerBox').innerHTML = `
+                <p style="margin: 0; font-size: 0.9rem;">⏱️ Payment Time Expired</p>
+                <div class="timer-display" style="color: #666;">00:00</div>
+                <p style="margin: 0; font-size: 0.85rem; color: #666;">Account number has expired. Please make a new order.</p>
+            `;
+            
+            // Hide and disable all payment elements
+            document.getElementById('accountNumber').style.display = 'none';
+            document.querySelector('.bank-options').style.display = 'none';
+            document.querySelector('.ussd-display').style.display = 'none';
+            document.querySelector('.instructions').style.display = 'none';
+            
+            // Disable payment button
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').style.display = 'none';
+
+            // Show expiry message
+            const bankInfo = document.querySelector('.bank-info');
+            bankInfo.innerHTML = `
+                <h3 style="color: #dc3545; margin-top: 0;">❌ Payment Session Expired</h3>
+                <p style="color: #666; margin: 1rem 0;">The account number is no longer valid. Your 3-minute payment window has expired.</p>
+                <p style="color: #666; margin: 1rem 0;">Please go back to your cart and place a new order to get a new account number and payment details.</p>
+                <button onclick="goBackToCart()" style="width: 100%; padding: 0.75rem; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 1rem;">← Back to Cart</button>
+            `;
+        }
+
+        function goBackToCart() {
+            window.location.href = 'cart.html';
+        }
+
+        function loadOrderData() {
+            const params = new URLSearchParams(window.location.search);
+            const trackingId = params.get('trackingId');
+
+            if (!trackingId) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            const orders = JSON.parse(localStorage.getItem('jbpOrders')) || [];
+            orderData = orders.find(o => o.trackingId === trackingId);
+
+            if (!orderData) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            // Display order information
+            document.getElementById('trackingId').textContent = orderData.trackingId;
+            document.getElementById('customerName').textContent = orderData.customerName;
+            document.getElementById('customerEmail').textContent = orderData.email;
+            document.getElementById('totalAmount').textContent = '₦' + orderData.totalAmount.toLocaleString();
+
+            startTimer();
+        }
+
+        function confirmPayment() {
+            if (!orderData) return;
+
+            const btn = document.getElementById('confirmBtn');
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            // Prepare receipt data
+            const itemsList = orderData.items.map(item => 
+                `${item.name} (x${item.quantity}) = ₦${(item.price * item.quantity).toLocaleString()}`
+            ).join('\n');
+
+            const receiptData = {
+                "_subject": "✅ PAYMENT RECEIPT - JOKE GLAMS",
+                "Order Confirmation": "Payment Received Successfully",
+                "Tracking ID": orderData.trackingId,
+                "Customer Name": orderData.customerName,
+                "Email Address": orderData.email,
+                "Phone Number": orderData.phone,
+                "Delivery Address": orderData.address,
+                "Ordered Items": itemsList,
+                "Subtotal": `₦${(orderData.totalAmount - 1000).toLocaleString()}`,
+                "Delivery Fee": "₦1,000.00",
+                "Total Amount Paid": `₦${orderData.totalAmount.toLocaleString()}`,
+                "Payment Method": "Bank Transfer",
+                "Account Number Used": "9133480162",
+                "Payment Date": new Date().toLocaleString(),
+                "Expected Ship Date": "Day 2 of order",
+                "Expected Pickup Date": "Day 3 of order",
+                "Status": "Payment Confirmed - Order Processing",
+                "_replyto": orderData.email
+            };
+
+            // Send receipt to admin
+            fetch("https://formsubmit.co/ajax/kayodeakano70@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(receiptData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Update order status to Processing
+                    const orders = JSON.parse(localStorage.getItem('jbpOrders')) || [];
+                    const orderIndex = orders.findIndex(o => o.trackingId === orderData.trackingId);
+                    if (orderIndex !== -1) {
+                        orders[orderIndex].status = 'Processing';
+                        localStorage.setItem('jbpOrders', JSON.stringify(orders));
+                    }
+
+                    clearInterval(timerInterval);
+                    
+                    const statusDiv = document.getElementById('statusMessage');
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.innerHTML = `
+                        <h3 style="margin-top: 0; color: #155724;">✅ Payment Confirmed!</h3>
+                        <p>Thank you for your payment. A receipt has been sent to your email.</p>
+                        <p style="color: #0066cc; font-weight: 600; margin-bottom: 1rem;">Tracking ID: ${orderData.trackingId}</p>
+                        <p style="font-size: 0.9rem; margin: 0;">You can track your order using the Track Order page.</p>
+                    `;
+                    
+                    btn.style.display = 'none';
+                    showToast('Payment confirmed! Receipt sent to your email.', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'track-order.html';
+                    }, 3000);
+                } else {
+                    throw new Error('Failed to send receipt');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                btn.disabled = false;
+                btn.textContent = '✅ I Have Made The Payment';
+                
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.className = 'status-message status-error';
+                statusDiv.innerHTML = `
+                    <h3 style="margin-top: 0;">❌ Error</h3>
+                    <p>There was an issue confirming your payment. Please try again.</p>
+                `;
+                showToast('Error confirming payment. Please try again.', 'error');
+            });
+        }
+
+        // Load order data when page loads
+        window.addEventListener('load', loadOrderData);
+    </script>
+</body>
+
+</html>

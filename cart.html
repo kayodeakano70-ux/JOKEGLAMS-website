@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="search.html">🔍 Search</a></li>
+                <li><a href="track-order.html">📍 Track Order</a></li>
+                <li><a href="cart.html" class="active">🛒 Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Cart Header -->
+    <section class="page-header">
+        <h1>Your Shopping Cart</h1>
+        <p>Review your items and complete your order</p>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="shop-section">
+        <div id="cartContainer">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <div class="summary-card">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">₦0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span id="deliveryFee">₦1,000.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="total">₦0.00</span>
+                    </div>
+                </div>
+
+                <div class="checkout-card">
+                    <h3>Shipping Information</h3>
+                    <form id="checkoutForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input name="fullname" type="text" required placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input name="email" type="email" required placeholder="your@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input name="phone" type="tel" required placeholder="+234 8036355380">
+                        </div>
+
+                        <div class="form-group">
+                            <label>State</label>
+                            <select id="stateSelect" name="state" required onchange="updateLGA()">
+                                <option value="">Select a State</option>
+                                <option value="Lagos">Lagos</option>
+                                <option value="Abuja (FCT)">Abuja (FCT)</option>
+                                <option value="Oyo">Oyo</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="Osun">Osun</option>
+                                <option value="Ondo">Ondo</option>
+                                <option value="Ekiti">Ekiti</option>
+                                <option value="Kwara">Kwara</option>
+                                <option value="Kogi">Kogi</option>
+                                <option value="Niger">Niger</option>
+                                <option value="Nasarawa">Nasarawa</option>
+                                <option value="Plateau">Plateau</option>
+                                <option value="Kaduna">Kaduna</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Kebbi">Kebbi</option>
+                                <option value="Sokoto">Sokoto</option>
+                                <option value="Zamfara">Zamfara</option>
+                                <option value="Bauchi">Bauchi</option>
+                                <option value="Taraba">Taraba</option>
+                                <option value="Yobe">Yobe</option>
+                                <option value="Borno">Borno</option>
+                                <option value="Adamawa">Adamawa</option>
+                                <option value="Gombe">Gombe</option>
+                                <option value="Jigawa">Jigawa</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="Ebonyi">Ebonyi</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Imo">Imo</option>
+                                <option value="Abia">Abia</option>
+                                <option value="Cross River">Cross River</option>
+                                <option value="Akwa Ibom">Akwa Ibom</option>
+                                <option value="Rivers">Rivers</option>
+                                <option value="Bayelsa">Bayelsa</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Edo">Edo</option>
+                                <option value="Benue">Benue</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Local Government Area (LGA)</label>
+                            <select id="lgaSelect" name="lga" required>
+                                <option value="">Select State First</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>City</label>
+                            <input list="cityList" name="city" type="text" required placeholder="Select or type a city">
+                            <datalist id="cityList">
+                                <option value="Lagos"></option>
+                                <option value="Abuja"></option>
+                                <option value="Ibadan"></option>
+                                <option value="Port Harcourt"></option>
+                                <option value="Kano"></option>
+                                <option value="Enugu"></option>
+                                <option value="Abeokuta"></option>
+                                <option value="Benin City"></option>
+                                <option value="Uyo"></option>
+                                <option value="Jos"></option>
+                                <option value="Owerri"></option>
+                                <option value="Calabar"></option>
+                                <option value="Makurdi"></option>
+                                <option value="Ilorin"></option>
+                                <option value="Akure"></option>
+                                <option value="Oshogbo"></option>
+                                <option value="Asaba"></option>
+                                <option value="Warri"></option>
+                                <option value="Kaduna"></option>
+                                <option value="Zaria"></option>
+                            </datalist>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Delivery Address</label>
+                            <textarea name="address" required
+                                placeholder="Enter your complete delivery address"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input name="postal" type="text" required placeholder="e.g., 100001">
+                        </div>
+
+                        <div
+                            style="border-top: 2px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Payment Method</h4>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; margin-bottom: 1rem; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="Card" checked
+                                        style="margin-right: 0.75rem;">
+                                    <span>💳 Credit/Debit Card</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; margin-bottom: 1rem; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="Bank Transfer"
+                                        style="margin-right: 0.75rem;">
+                                    <span>🏦 Bank Transfer</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; margin-bottom: 1rem; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="USSD"
+                                        style="margin-right: 0.75rem;">
+                                    <span>📱 USSD (Mobile Banking)</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; margin-bottom: 1rem; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="Cash on Delivery"
+                                        style="margin-right: 0.75rem;">
+                                    <span>💵 Cash on Delivery (COD)</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label
+                                    style="display: flex; align-items: center; margin-bottom: 1rem; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="Mobile Wallet"
+                                        style="margin-right: 0.75rem;">
+                                    <span>💰 Mobile Wallet (Opay, Moniepoint)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Place
+                            Order</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="emptyCart" class="empty-cart" style="display: none; text-align: center; padding: 3rem;">
+                <p style="font-size: 1.2rem; color: #999;">Your cart is empty</p>
+                <a href="shop.html" class="btn btn-secondary" style="margin-top: 1rem;">Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+            <p>Contact: +234 8036355380 | Email:kayodeakano70@gmail.com</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/KayodeAkano" target="_blank" rel="noopener noreferrer" class="social">Facebook</a>
+                <a href="https://www.instagram.com/baba_asaba20" target="_blank" rel="noopener noreferrer"
+                    class="social">Instagram</a>
+                <a href="https://x.com/baba_asaba20" target="_blank" rel="noopener noreferrer" class="social">Twitter</a>
+                <a href="https://www.tiktok.com/@goodnesskayode1" target="_blank" rel="noopener noreferrer" class="social">TikTok</a>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 1rem; color: #999;">
+                <a href="admin.html" style="color: #999; text-decoration: none;">Admin Panel</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const DELIVERY_FEE = 1000;
+
+        function generateTrackingId() {
+            return 'JBP-' + Date.now().toString().slice(-9) + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+            const cartItemsDiv = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartContainer = document.getElementById('cartContainer');
+
+            if (cart.length === 0) {
+                cartContainer.style.display = 'none';
+                emptyCart.style.display = 'block';
+                return;
+            }
+
+            cartContainer.style.display = 'block';
+            emptyCart.style.display = 'none';
+            cartItemsDiv.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.quantity;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>₦${item.price.toLocaleString()}</td>
+                    <td>
+                        <input type="number" min="1" value="${item.quantity}" class="qty-input" data-index="${index}" style="width: 60px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                    </td>
+                    <td>₦${subtotal.toLocaleString()}</td>
+                    <td><button class="btn-remove" data-index="${index}">Remove</button></td>
+                `;
+                cartItemsDiv.appendChild(row);
+            });
+
+            updateTotal();
+
+            document.querySelectorAll('.qty-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const index = e.target.dataset.index;
+                    const newQty = parseInt(e.target.value) || 1;
+                    updateQuantity(index, newQty);
+                });
+            });
+
+            document.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    removeFromCart(parseInt(e.target.dataset.index));
+                });
+            });
+        }
+
+        function updateQuantity(index, quantity) {
+            const cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+            if (cart[index]) {
+                cart[index].quantity = Math.max(1, quantity);
+                localStorage.setItem('jbpCart', JSON.stringify(cart));
+                loadCart();
+            }
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('jbpCart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function updateTotal() {
+            const cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const total = subtotal + DELIVERY_FEE;
+
+            document.getElementById('subtotal').textContent = '₦' + subtotal.toLocaleString();
+            document.getElementById('total').textContent = '₦' + total.toLocaleString();
+        }
+
+        function updateLGA() {
+            const state = document.getElementById('stateSelect').value;
+            const lgaSelect = document.getElementById('lgaSelect');
+            const lgaOptions = {
+                'Lagos': ['Ikeja', 'Lekki', 'Surulere', 'Ikoyi', 'Epe', 'Badagry', 'Yaba'],
+                'Abuja (FCT)': ['Gwagwalada', 'Bwari', 'Kuje', 'Abaji', 'Kwali', 'AMAC'],
+                'Oyo': ['Ibadan North', 'Ibadan South-West', 'Ogbomosho North', 'Oyo East', 'Iseyin', 'Oke-Ogun'],
+                'Ogun': ['Abeokuta North', 'Ilaro', 'Sagamu', 'Ijebu Ode', 'Abeokuta South', 'Ota'],
+                'Osun': ['Osogbo', 'Ila', 'Ilesa', 'Ife North', 'Ede North', 'Ife South'],
+                'Ondo': ['Akure North', 'Akure South', 'Owo', 'Ikare', 'Ondo East', 'Okitipupa'],
+                'Ekiti': ['Ado Ekiti', 'Ikere', 'Ise/Orun', 'Oye', 'Efon', 'Ikole'],
+                'Kwara': ['Ilorin East', 'Ilorin West', 'Offa', 'Isin', 'Ekiti Kwara', 'Ilorin South'],
+                'Kogi': ['Lokoja', 'Ajaokuta', 'Idah', 'Okene', 'Koton Karfe', 'Mopa-Muro'],
+                'Niger': ['Minna', 'Suleja', 'Kontagora', 'Bida', 'Zungeru', 'Lapai'],
+                'Nasarawa': ['Lafia', 'Akwanga', 'Keffi', 'Kokona', 'Doma', 'Wamba'],
+                'Plateau': ['Jos North', 'Jos South', 'Barkin Ladi', 'Pankshin', 'Mangu', 'Bassa'],
+                'Kaduna': ['Kaduna North', 'Kaduna South', 'Zaria', 'Kachia', 'Igabi', 'Chikun'],
+                'Katsina': ['Katsina', 'Daura', 'Funtua', 'Kankara', 'Jibia', 'Malumfashi'],
+                'Kano': ['Kano Municipal', 'Nasarawa', 'Gwale', 'Tarauni', 'Dala', 'Kumbotso'],
+                'Kebbi': ['Birnin Kebbi', 'Argungu', 'Yauri', 'Zuru', 'Danko', 'Aliero'],
+                'Sokoto': ['Sokoto North', 'Sokoto South', 'Gwadabawa', 'Illela', 'Tambuwal', 'Isa'],
+                'Zamfara': ['Gusau', 'Talata Mafara', 'Anka', 'Kaura Namoda', 'Birnin Magaji', 'Maradun'],
+                'Bauchi': ['Bauchi', 'Ningi', 'Azare', 'Alkaleri', 'Katagum', 'Toro'],
+                'Taraba': ['Jalingo', 'Wukari', 'Ibi', 'Takum', 'Gassol', 'Karim Lamido'],
+                'Yobe': ['Damaturu', 'Potiskum', 'Gashua', 'Nguru', 'Geidam', 'Bade'],
+                'Borno': ['Maiduguri', 'Bama', 'Damboa', 'Biu', 'Gwoza', 'Gubio'],
+                'Adamawa': ['Yola North', 'Yola South', 'Mubi North', 'Mubi South', 'Numan', 'Maiha'],
+                'Gombe': ['Gombe', 'Funakaye', 'Kaltungo', 'Dukku', 'Yamaltu Deba', 'Balanga'],
+                'Jigawa': ['Dutse', 'Hadejia', 'Gumel', 'Kazaure', 'Ringim', 'Garki'],
+                'Enugu': ['Enugu North', 'Enugu South', 'Nsukka', 'Awgu', 'Udi', 'Nkanu East'],
+                'Ebonyi': ['Abakaliki', 'Afikpo North', 'Afikpo South', 'Izzi', 'Ezza South', 'Ishielu'],
+                'Anambra': ['Awka South', 'Awka North', 'Onitsha North', 'Onitsha South', 'Nnewi North', 'Ogbaru'],
+                'Imo': ['Owerri Municipal', 'Owerri North', 'Owerri West', 'Orlu', 'Okigwe', 'Mbaitoli'],
+                'Abia': ['Umuahia North', 'Umuahia South', 'Aba North', 'Aba South', 'Isiala Ngwa North', 'Isiala Ngwa South'],
+                'Cross River': ['Calabar Municipal', 'Calabar South', 'Ogoja', 'Ikom', 'Abi', 'Akpabuyo'],
+                'Akwa Ibom': ['Uyo', 'Eket', 'Ikot Ekpene', 'Oron', 'Etinan', 'Ikono'],
+                'Rivers': ['Port Harcourt', 'Obio/Akpor', 'Okrika', 'Emohua', 'Eleme', 'Bonny'],
+                'Bayelsa': ['Yenagoa', 'Nembe', 'Ogbia', 'Brass', 'Sagbama', 'Southern Ijaw'],
+                'Delta': ['Asaba', 'Warri South', 'Udu', 'Sapele', 'Ughelli North', 'Isoko South'],
+                'Edo': ['Benin City', 'Oredo', 'Uhunmwonde', 'Esan North-East', 'Ovia South-West', 'Ikpoba-Okha'],
+                'Benue': ['Makurdi', 'Gboko', 'Otukpo', 'Vandeikya', 'Buruku', 'Apa']
+            };
+
+            lgaSelect.innerHTML = '<option value="">Select LGA</option>';
+            if (lgaOptions[state]) {
+                lgaOptions[state].forEach(lga => {
+                    const option = document.createElement('option');
+                    option.value = lga;
+                    option.textContent = lga;
+                    lgaSelect.appendChild(option);
+                });
+            } else {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'No LGAs available';
+                lgaSelect.appendChild(option);
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 4000);
+        }
+
+        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Placing Order...';
+
+            const formData = new FormData(this);
+            const itemsList = cart.map(item => `${item.name} (x${item.quantity}) = ₦${(item.price * item.quantity).toLocaleString()}`).join(', ');
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + DELIVERY_FEE;
+            const trackingId = generateTrackingId();
+
+            // Create order object to save
+            const orderData = {
+                trackingId: trackingId,
+                customerName: formData.get('fullname'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: `${formData.get('address')}, ${formData.get('city')}, ${formData.get('lga')}, ${formData.get('state')} State`,
+                items: cart,
+                paymentMethod: formData.get('paymentMethod'),
+                totalAmount: totalAmount,
+                status: 'Pending',
+                orderDate: new Date().toISOString()
+            };
+
+            // Save order to localStorage
+            const orders = JSON.parse(localStorage.getItem('jbpOrders')) || [];
+            orders.push(orderData);
+            localStorage.setItem('jbpOrders', JSON.stringify(orders));
+
+            const emailData = {
+                "_subject": "🛒 New Order - JOKE GLAMS",
+                "Tracking ID": trackingId,
+                "Customer Name": formData.get('fullname'),
+                "Email Address": formData.get('email'),
+                "Phone Number": formData.get('phone'),
+                "Delivery Address": `${formData.get('address')}, ${formData.get('city')}, ${formData.get('lga')}, ${formData.get('state')} State`,
+                "Postal Code": formData.get('postal'),
+                "Ordered Items": itemsList,
+                "Payment Method": formData.get('paymentMethod'),
+                "Total Amount": `₦${totalAmount.toLocaleString()}`,
+                "_replyto": formData.get('email')
+            };
+
+            fetch("https://formsubmit.co/ajax/kayodeakano70@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(emailData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        showToast(`Order created! Redirecting to payment...`, 'success');
+                        localStorage.removeItem('jbpCart');
+                        this.reset();
+                        
+                        // Redirect to payment page with tracking ID
+                        setTimeout(() => {
+                            window.location.href = `payment.html?trackingId=${trackingId}`;
+                        }, 1000);
+                    } else {
+                        throw new Error('Failed to send order.');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    showToast('An error occurred. Please try again.', 'error');
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                });
+        });
+
+        loadCart();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Goods & Services - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Extra Search Page Styles */
+        .search-container {
+            max-width: 800px;
+            margin: -2rem auto 3rem auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box-wrapper {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 15px 35px rgba(44, 24, 16, 0.15);
+            padding: 0.5rem;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .search-box-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 35px rgba(212, 20, 90, 0.2);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            outline: none;
+            border-radius: 50px;
+            color: var(--dark-color);
+        }
+
+        .search-clear-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 1rem;
+            display: none;
+            transition: color 0.2s;
+        }
+
+        .search-clear-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .search-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #B8103A;
+            transform: scale(1.02);
+        }
+
+        /* Filter & Sort Controls */
+        .controls-panel {
+            max-width: 1200px;
+            margin: 0 auto 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: #ffebe5;
+            padding: 0.4rem;
+            border-radius: 30px;
+        }
+
+        .filter-tab {
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(212, 20, 90, 0.2);
+        }
+
+        .sort-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sort-select {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: white;
+            font-weight: 500;
+            color: var(--text-color);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .sort-select:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Results section */
+        .results-count {
+            max-width: 1200px;
+            margin: 0 auto 1rem auto;
+            padding: 0 2rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .results-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            min-height: 300px;
+        }
+
+        /* Enhanced Card Styles */
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+
+        .badge-product {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+        }
+
+        .badge-service {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .search-card {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .search-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(212, 20, 90, 0.15);
+        }
+
+        .card-image-section {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background: #ffebe5;
+        }
+
+        .card-image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .search-card:hover .card-image-section img {
+            transform: scale(1.08);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #999;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-price span {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-actions {
+            margin-top: auto;
+        }
+
+        .card-actions .btn {
+            width: 100%;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Empty State styles */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .no-results p {
+            color: #777;
+            margin-bottom: 1.5rem;
+        }
+
+        .suggestions-list {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .suggestion-chip {
+            background: #ffebe5;
+            border: 1px solid #ffdbd0;
+            color: var(--primary-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .controls-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-tabs {
+                justify-content: center;
+            }
+            .sort-wrapper {
+                justify-content: space-between;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="search.html" class="active">🔍 Search</a></li>
+                <li><a href="cart.html">🛒 Cart</a></li>
+                <li id="authLink" style="position: relative;">
+                    <a href="signup.html" style="color: var(--primary-color); font-weight: 600;">👤 Sign Up</a>
+                    <!-- User Account Dropdown (Hidden until logged in) -->
+                    <div id="userDropdown" class="user-dropdown" style="display: none;">
+                        <div class="dropdown-header">
+                            <p id="userGreeting" style="margin: 0; font-weight: 600; color: var(--primary-color);">Welcome!</p>
+                            <p id="userEmail" style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #999;"></p>
+                        </div>
+                        <hr style="margin: 0.75rem 0; border: none; border-top: 1px solid #ddd;">
+                        <a href="user-dashboard.html" class="dropdown-item">👤 My Profile</a>
+                        <a href="javascript:void(0)" onclick="logout()" class="dropdown-item" style="color: #dc3545;">🚪 Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search Page Header -->
+    <section class="page-header">
+        <h1>Find Beauty & Glam</h1>
+        <p>Search premium makeup products and professional beauty services</p>
+    </section>
+
+    <!-- Search Input Area -->
+    <div class="search-container">
+        <div class="search-box-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="What are you looking for today? (e.g. lipstick, bridal, gele...)" autofocus>
+            <button id="clearSearchBtn" class="search-clear-btn" aria-label="Clear search">×</button>
+            <button id="searchButton" class="search-btn">Search</button>
+        </div>
+    </div>
+
+    <!-- Filter & Sort Panel -->
+    <div class="controls-panel">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All Results</button>
+            <button class="filter-tab" data-filter="product">Goods (Products)</button>
+            <button class="filter-tab" data-filter="service">Services</button>
+        </div>
+
+        <div class="sort-wrapper">
+            <label for="sortSelect" style="font-weight: 600; color: var(--dark-color);">Sort By:</label>
+            <select id="sortSelect" class="sort-select">
+                <option value="relevance">Relevance</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name: A-Z</option>
+                <option value="name-desc">Name: Z-A</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Results Status Info -->
+    <div id="resultsCount" class="results-count">Showing results...</div>
+
+    <!-- Search Results Grid -->
+    <section class="results-grid" id="resultsGrid">
+        <!-- Results dynamic loading -->
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+            <p>Contact: +234 8036355380 | Email:kayodeakano70@gmail.com</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/KayodeAkano" target="_blank" rel="noopener noreferrer"
+                    class="social">Facebook</a>
+                <a href="https://www.instagram.com/baba_asaba20" target="_blank" rel="noopener noreferrer"
+                    class="social">Instagram</a>
+                <a href="https://x.com/baba_asaba20" target="_blank" rel="noopener noreferrer"
+                    class="social">Twitter</a>
+                <a href="https://www.tiktok.com/@goodnesskayode1" target="_blank" rel="noopener noreferrer"
+                    class="social">TikTok</a>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 1rem; color: #999;">
+                <a href="admin.html" style="color: #999; text-decoration: none;">Admin Panel</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Load Search Database -->
+    <script src="js/search-db.js"></script>
+    <script>
+        // Check user session login details (Matches navigation behavior across other pages)
+        function checkUserLogin() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            const authLink = document.getElementById('authLink');
+            const userDropdown = document.getElementById('userDropdown');
+            const signUpLink = authLink.querySelector('a[href="signup.html"]');
+
+            if (currentUser) {
+                // User is logged in
+                signUpLink.style.display = 'none';
+                userDropdown.style.display = 'block';
+                document.getElementById('userGreeting').textContent = `👤 ${currentUser.fullname}`;
+                document.getElementById('userEmail').textContent = currentUser.email;
+
+                // Toggle dropdown on click
+                authLink.addEventListener('click', function(e) {
+                    if (e.target.closest('.user-dropdown')) return;
+                    userDropdown.style.display = userDropdown.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Close dropdown when clicking elsewhere
+                document.addEventListener('click', function(e) {
+                    if (!authLink.contains(e.target) && userDropdown.style.display === 'block') {
+                        userDropdown.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('rememberedUser');
+            showToast('Logged out successfully! 👋', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem;';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.style.cssText = `
+                background: ${type === 'success' ? '#10b981' : '#ef4444'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease;
+                display: flex;
+                gap: 0.75rem;
+                align-items: center;
+                pointer-events: auto;
+            `;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Add toast styles if missing
+        if (!document.getElementById('toastStyles')) {
+            const style = document.createElement('style');
+            style.id = 'toastStyles';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // --- SEARCH ENGINE LOGIC ---
+        let currentFilter = 'all';
+        let currentSort = 'relevance';
+        let searchQuery = '';
+
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchButton = document.getElementById('searchButton');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUserLogin();
+            
+            // Extract query from URL e.g. search.html?q=bridal
+            const params = new URLSearchParams(window.location.search);
+            const queryParam = params.get('q');
+            if (queryParam) {
+                searchInput.value = queryParam;
+                searchQuery = queryParam.trim();
+                toggleClearButton();
+            }
+
+            performSearch();
+        });
+
+        // Event Listeners
+        searchInput.addEventListener('input', () => {
+            searchQuery = searchInput.value.trim();
+            toggleClearButton();
+            performSearch(); // Live search
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchQuery = '';
+            toggleClearButton();
+            searchInput.focus();
+            performSearch();
+        });
+
+        searchButton.addEventListener('click', () => {
+            searchQuery = searchInput.value.trim();
+            performSearch();
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchQuery = searchInput.value.trim();
+                performSearch();
+            }
+        });
+
+        // Filter tabs click handling
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                performSearch();
+            });
+        });
+
+        // Sort select handling
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            performSearch();
+        });
+
+        function toggleClearButton() {
+            if (searchInput.value.length > 0) {
+                clearSearchBtn.style.display = 'block';
+            } else {
+                clearSearchBtn.style.display = 'none';
+            }
+        }
+
+        // core search engine algorithm
+        function performSearch() {
+            let matches = [];
+
+            // Combine dataset or pick active type
+            const products = SEARCH_DATABASE.products;
+            const services = SEARCH_DATABASE.services;
+
+            const queryTerms = searchQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+
+            // Filter products
+            if (currentFilter === 'all' || currentFilter === 'product') {
+                products.forEach(prod => {
+                    const score = calculateRelevance(prod, queryTerms);
+                    if (score > 0 || queryTerms.length === 0) {
+                        matches.push({ ...prod, score });
+                    }
+                });
+            }
+
+            // Filter services
+            if (currentFilter === 'all' || currentFilter === 'service') {
+                services.forEach(srv => {
+                    const score = calculateRelevance(srv, queryTerms);
+                    if (score > 0 || queryTerms.length === 0) {
+                        matches.push({ ...srv, score });
+                    }
+                });
+            }
+
+            // Sort matches
+            sortResults(matches);
+
+            // Display results
+            renderResults(matches);
+        }
+
+        function calculateRelevance(item, queryTerms) {
+            if (queryTerms.length === 0) return 0;
+            let score = 0;
+            const name = item.name.toLowerCase();
+            const desc = item.description.toLowerCase();
+            const category = item.category.toLowerCase();
+            const keywords = item.keywords || [];
+
+            queryTerms.forEach(term => {
+                if (name.includes(term)) {
+                    score += 10;
+                    if (name.startsWith(term)) score += 5; // prefix bonus
+                }
+                if (desc.includes(term)) {
+                    score += 3;
+                }
+                if (category.includes(term)) {
+                    score += 5;
+                }
+                keywords.forEach(kw => {
+                    if (kw.toLowerCase().includes(term)) {
+                        score += 4;
+                    }
+                });
+            });
+
+            return score;
+        }
+
+        function sortResults(items) {
+            if (currentSort === 'relevance') {
+                items.sort((a, b) => b.score - a.score);
+            } else if (currentSort === 'price-asc') {
+                items.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'price-desc') {
+                items.sort((a, b) => b.price - a.price);
+            } else if (currentSort === 'name-asc') {
+                items.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (currentSort === 'name-desc') {
+                items.sort((a, b) => b.name.localeCompare(a.name));
+            }
+        }
+
+        function renderResults(items) {
+            resultsGrid.innerHTML = '';
+            
+            if (items.length === 0) {
+                resultsCount.textContent = `No results found for "${searchQuery}"`;
+                renderEmptyState();
+                return;
+            }
+
+            resultsCount.textContent = `Found ${items.length} ${items.length === 1 ? 'item' : 'items'} matching your query`;
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'search-card';
+
+                const isProduct = item.type === 'product';
+                const badgeClass = isProduct ? 'badge-product' : 'badge-service';
+                const badgeLabel = isProduct ? 'Goods (Product)' : 'Beauty Service';
+                const priceLabel = isProduct ? '' : ' <span>deposit</span>';
+                
+                const actionButton = isProduct 
+                    ? `<button class="btn btn-primary add-to-cart-btn" data-name="${item.name}" data-price="${item.price}">🛒 Add to Cart</button>`
+                    : `<a href="booking.html?service=${encodeURIComponent(item.name)}" class="btn btn-secondary">📅 Book Appointment</a>`;
+
+                card.innerHTML = `
+                    <span class="card-badge ${badgeClass}">${badgeLabel}</span>
+                    <div class="card-image-section">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-category">${item.category}</div>
+                        <h3 class="card-title">${item.name}</h3>
+                        <div class="card-price">₦${item.price.toLocaleString()}${priceLabel}</div>
+                        <p class="card-description">${item.description}</p>
+                        <div class="card-actions">
+                            ${actionButton}
+                        </div>
+                    </div>
+                `;
+
+                resultsGrid.appendChild(card);
+            });
+
+            // Bind events for dynamically rendered Add to Cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const name = this.dataset.name;
+                    const price = parseInt(this.dataset.price);
+                    
+                    // Check user login logic matching shop.html
+                    const currentUser = sessionStorage.getItem('currentUser');
+                    if (!currentUser) {
+                        showToast('Please log in to add items to cart!', 'error');
+                        setTimeout(() => {
+                            window.location.href = 'login.html?redirect=search.html';
+                        }, 1500);
+                        return;
+                    }
+
+                    addToCart(name, price, this);
+                });
+            });
+        }
+
+        function renderEmptyState() {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'no-results';
+            emptyDiv.innerHTML = `
+                <div class="no-results-icon">🔎</div>
+                <h3>We couldn't find any matches</h3>
+                <p>Try searching for keywords like "bridal", "lipstick", "gele", "palette", or browse the popular suggestions below:</p>
+                <div class="suggestions-list">
+                    <button class="suggestion-chip" onclick="triggerSuggestion('Bridal')">Bridal Glam</button>
+                    <button class="suggestion-chip" onclick="triggerSuggestion('Lipstick')">Lipstick</button>
+                    <button class="suggestion-chip" onclick="triggerSuggestion('Gele')">Gele Tying</button>
+                    <button class="suggestion-chip" onclick="triggerSuggestion('Palette')">Palette</button>
+                    <button class="suggestion-chip" onclick="triggerSuggestion('Highlighter')">Highlighter</button>
+                </div>
+            `;
+            resultsGrid.appendChild(emptyDiv);
+        }
+
+        function triggerSuggestion(keyword) {
+            searchInput.value = keyword;
+            searchQuery = keyword;
+            toggleClearButton();
+            performSearch();
+            searchInput.focus();
+        }
+
+        function addToCart(name, price, buttonElement) {
+            let cart = JSON.parse(localStorage.getItem('jbpCart')) || [];
+            
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+
+            localStorage.setItem('jbpCart', JSON.stringify(cart));
+            
+            // UI Feedback
+            showToast(`✅ ${name} added to cart!`, 'success');
+            const originalText = buttonElement.innerHTML;
+            buttonElement.textContent = 'Added ✓';
+            buttonElement.style.backgroundColor = '#10b981';
+            buttonElement.style.borderColor = '#10b981';
+            buttonElement.disabled = true;
+
+            setTimeout(() => {
+                buttonElement.innerHTML = originalText;
+                buttonElement.style.backgroundColor = '';
+                buttonElement.style.borderColor = '';
+                buttonElement.disabled = false;
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>

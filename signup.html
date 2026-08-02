@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container {
+            max-width: 450px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .auth-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(198, 141, 105, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: var(--dark-color);
+            transform: translateY(-2px);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .auth-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: #fffbea;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .info-box strong {
+            color: #ff8c00;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin-top: 0.25rem;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body style="background-color: #f5f5f5;">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="search.html">🔍 Search</a></li>
+                <li><a href="login.html" style="color: var(--primary-color); font-weight: 600;">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Create Account</h1>
+            <p>Join JOKE GLAMS for easy bookings & order tracking</p>
+        </div>
+
+        <div class="info-box">
+            <strong>✅ Why create an account?</strong>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.2rem;">
+                <li>Get notifications when your order is ready</li>
+                <li>Track all your orders easily</li>
+                <li>Save your details for faster checkout</li>
+                <li>Receive SMS & email updates</li>
+            </ul>
+        </div>
+
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="fullname">Full Name *</label>
+                <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="your@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+234 8036355380" pattern="^\+?234[0-9]{10}$|^0[0-9]{10}$">
+                <small style="color: #999; display: block; margin-top: 0.25rem;">Use format: +234XXXXXXXXXX or 0XXXXXXXXXX</small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" required placeholder="Create a strong password" onkeyup="checkPasswordStrength(this.value)">
+                <div class="password-strength">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #999; margin-bottom: 0.25rem;">
+                        <span>Password Strength:</span>
+                        <span id="strengthText">Weak</span>
+                    </div>
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strengthFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <input type="checkbox" id="terms" name="terms" required style="width: auto; margin-right: 0.75rem;">
+                <label for="terms" style="margin: 0; font-weight: normal;">I agree to the <a href="#" style="color: var(--primary-color);">Terms & Conditions</a></label>
+            </div>
+
+            <button type="submit" class="auth-btn">🎉 Create Account</button>
+        </form>
+
+        <div class="auth-link">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 3rem;">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function checkPasswordStrength(password) {
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            let strength = 0;
+            let text = 'Weak';
+            let color = '#ff6b6b';
+
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[!@#$%^&*]/.test(password)) strength++;
+
+            if (strength === 0) {
+                text = 'Weak';
+                color = '#ff6b6b';
+                strengthFill.style.width = '20%';
+            } else if (strength === 1 || strength === 2) {
+                text = 'Fair';
+                color = '#ffc107';
+                strengthFill.style.width = '40%';
+            } else if (strength === 3) {
+                text = 'Good';
+                color = '#17a2b8';
+                strengthFill.style.width = '60%';
+            } else if (strength === 4) {
+                text = 'Strong';
+                color = '#28a745';
+                strengthFill.style.width = '80%';
+            } else {
+                text = 'Very Strong';
+                color = '#00a86b';
+                strengthFill.style.width = '100%';
+            }
+
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = text;
+            strengthText.style.color = color;
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 4000);
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validation
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match!', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters long!', 'error');
+                return;
+            }
+
+            // Check if email already exists
+            const users = JSON.parse(localStorage.getItem('jbpUsers')) || [];
+            if (users.find(u => u.email === email)) {
+                showToast('Email already registered! Please login instead.', 'error');
+                return;
+            }
+
+            // Create user object
+            const newUser = {
+                id: 'USER-' + Date.now(),
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                password: btoa(password), // Simple encoding (not secure - for demo only)
+                createdDate: new Date().toISOString(),
+                preferences: {
+                    emailNotifications: true,
+                    smsNotifications: true
+                }
+            };
+
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('jbpUsers', JSON.stringify(users));
+
+            // Send welcome email
+            const emailData = {
+                "_subject": "🎉 Welcome to JOKE GLAMS!",
+                "Hello": fullname,
+                "Account Created": "Your JOKE GLAMS account has been successfully created!",
+                "Email": email,
+                "Phone": phone,
+                "Benefits": "You will now receive notifications when your orders are ready for pickup via email and SMS.",
+                "Next Steps": "Start shopping or booking our services now!",
+                "_replyto": email
+            };
+
+            fetch("https://formsubmit.co/ajax/kayodeakano70@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    showToast('Account created successfully! Welcome to JOKE GLAMS! 🎉', 'success');
+                    sessionStorage.setItem('currentUser', JSON.stringify(newUser));
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    throw new Error('Failed to send welcome email');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                // Still save account even if email fails
+                sessionStorage.setItem('currentUser', JSON.stringify(newUser));
+                showToast('Account created! But welcome email failed to send.', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>

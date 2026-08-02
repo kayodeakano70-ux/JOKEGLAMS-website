@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Services - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="booking.html" class="active">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="search.html">🔍 Search</a></li>
+                <li><a href="track-order.html">📍 Track Order</a></li>
+                <li><a href="cart.html">🛒 Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Booking Header -->
+    <section class="page-header">
+        <h1>Book Your Service</h1>
+        <p>Schedule an appointment with our professional makeup artists</p>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="featured" style="max-width: 700px;">
+        <h2 style="text-align: center;">Booking Information</h2>
+        <div class="service-card" style="background: white; padding: 2.5rem; margin-top: 1.5rem;">
+            <form id="bookingForm" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Full Name</label>
+                    <input name="fullname" type="text" required placeholder="Enter your full name" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Email Address</label>
+                    <input name="email" type="email" required placeholder="your@email.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Phone Number</label>
+                    <input name="phone" type="tel" required placeholder="+234 8036355380" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <div style="border-top: 2px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.1rem;">📍 Location</h3>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">State</label>
+                    <select name="state" required onchange="updateLGA()" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                        <option value="">Select a State</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Abuja (FCT)">Abuja (FCT)</option>
+                        <option value="Oyo">Oyo</option>
+                        <option value="Ogun">Ogun</option>
+                        <option value="Osun">Osun</option>
+                        <option value="Ondo">Ondo</option>
+                        <option value="Ekiti">Ekiti</option>
+                        <option value="Kwara">Kwara</option>
+                        <option value="Kogi">Kogi</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nasarawa">Nasarawa</option>
+                        <option value="Plateau">Plateau</option>
+                        <option value="Kaduna">Kaduna</option>
+                        <option value="Katsina">Katsina</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Kebbi">Kebbi</option>
+                        <option value="Sokoto">Sokoto</option>
+                        <option value="Zamfara">Zamfara</option>
+                        <option value="Bauchi">Bauchi</option>
+                        <option value="Taraba">Taraba</option>
+                        <option value="Yobe">Yobe</option>
+                        <option value="Borno">Borno</option>
+                        <option value="Adamawa">Adamawa</option>
+                        <option value="Gombe">Gombe</option>
+                        <option value="Jigawa">Jigawa</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="Ebonyi">Ebonyi</option>
+                        <option value="Anambra">Anambra</option>
+                        <option value="Imo">Imo</option>
+                        <option value="Abia">Abia</option>
+                        <option value="Cross River">Cross River</option>
+                        <option value="Akwa Ibom">Akwa Ibom</option>
+                        <option value="Rivers">Rivers</option>
+                        <option value="Bayelsa">Bayelsa</option>
+                        <option value="Delta">Delta</option>
+                        <option value="Edo">Edo</option>
+                        <option value="Benue">Benue</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Local Government Area (LGA)</label>
+                    <select name="lga" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                        <option value="">Select State First</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">City</label>
+                    <input list="cityList" name="city" type="text" required placeholder="Select or type a city" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                    <datalist id="cityList">
+                        <option value="Lagos"></option>
+                        <option value="Abuja"></option>
+                        <option value="Ibadan"></option>
+                        <option value="Port Harcourt"></option>
+                        <option value="Kano"></option>
+                        <option value="Enugu"></option>
+                        <option value="Abeokuta"></option>
+                        <option value="Benin City"></option>
+                        <option value="Uyo"></option>
+                        <option value="Jos"></option>
+                        <option value="Owerri"></option>
+                        <option value="Calabar"></option>
+                        <option value="Makurdi"></option>
+                        <option value="Ilorin"></option>
+                        <option value="Akure"></option>
+                        <option value="Oshogbo"></option>
+                        <option value="Asaba"></option>
+                        <option value="Warri"></option>
+                        <option value="Kaduna"></option>
+                        <option value="Zaria"></option>
+                    </datalist>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Detailed Address</label>
+                    <textarea name="address" required placeholder="Enter your service location address..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem; min-height: 80px; font-family: inherit; resize: vertical;"></textarea>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Service</label>
+                    <select name="service" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                        <option value="">Select a service</option>
+                        <option>Bridal Makeup</option>
+                        <option>Event Makeup</option>
+                        <option>Photography Makeup</option>
+                        <option>Makeup Lessons</option>
+                        <option>Gele Tying</option>
+                        <option>Beauty Consultation</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Preferred Date</label>
+                    <input name="date" type="date" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Preferred Time</label>
+                    <input name="time" type="time" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary-color);">Additional Notes</label>
+                    <textarea name="notes" placeholder="Tell us more about your preferences..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1rem; min-height: 120px; font-family: inherit; resize: vertical;"></textarea>
+                </div>
+
+                <div style="border-top: 2px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.1rem;">💳 Payment Required to Confirm Booking</h3>
+                    <p style="color: #666; margin: 0 0 1rem 0;">A booking deposit of <strong style="color: var(--primary-color);">₦5,000.00</strong> is required to secure your appointment slot.</p>
+                </div>
+
+                <!-- Payment Timer -->
+                <div id="paymentTimerBox" style="background: linear-gradient(135deg, #ff6b6b, #ff8787); color: white; padding: 1rem; border-radius: 5px; text-align: center; margin-bottom: 1rem; display: none;">
+                    <p style="margin: 0; font-size: 0.85rem;">⏱️ Payment Pending</p>
+                    <div id="bookingTimerDisplay" style="font-size: 1.8rem; font-weight: 700; margin: 0.5rem 0; font-family: 'Courier New', monospace;">03:00</div>
+                    <p style="margin: 0; font-size: 0.75rem;">Complete payment within this time</p>
+                </div>
+
+                <!-- Payment Account Details -->
+                <div id="paymentDetailsBox" style="background: #e3f2fd; padding: 1rem; border-radius: 5px; border: 2px solid #0066cc; margin-bottom: 1rem; display: none;">
+                    <p style="margin: 0 0 0.75rem 0; color: #0066cc; font-weight: 600;">Account Number to Transfer:</p>
+                    <div style="background: white; padding: 0.75rem; border-radius: 5px; text-align: center; margin-bottom: 0.75rem; font-family: 'Courier New', monospace; font-size: 1.1rem; font-weight: 700; color: var(--primary-color);">9133480162</div>
+                    <button type="button" onclick="copyBookingAccount()" style="width: 100%; padding: 0.5rem; background: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.75rem;">📋 Copy Account Number</button>
+                    
+                    <p style="margin: 0.75rem 0 0.5rem 0; color: #0066cc; font-weight: 600; font-size: 0.9rem;">Quick Payment Methods:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                        <button type="button" onclick="openBookingBankApp()" style="padding: 0.5rem; border: 1px solid var(--primary-color); background: white; color: var(--primary-color); border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.85rem;">🏦 Bank App</button>
+                        <button type="button" onclick="openBookingOnlineBanking()" style="padding: 0.5rem; border: 1px solid var(--primary-color); background: white; color: var(--primary-color); border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.85rem;">💻 Online Bank</button>
+                    </div>
+                    <p style="margin: 0.75rem 0 0.5rem 0; color: #0066cc; font-weight: 600; font-size: 0.9rem;">Or dial: <strong>*737#</strong></p>
+                </div>
+
+                <!-- Payment Confirm Button -->
+                <button type="button" id="paymentConfirmBtn" onclick="confirmBookingPayment()" style="width: 100%; padding: 0.75rem; background: var(--primary-color); color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; margin-bottom: 1rem; display: none;">✅ I Have Made The Payment</button>
+
+                <!-- Start Payment Button -->
+                <button type="button" id="startPaymentBtn" onclick="startBookingPayment()" style="width: 100%; padding: 0.75rem; background: #0066cc; color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; margin-bottom: 1rem;">💳 Proceed to Payment</button>
+
+                <button type="submit" class="btn btn-primary" id="submitBookingBtn" style="width: 100%; margin-top: 0; display: none;">📅 Complete Booking</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+            <p>Contact: +234 8036355380 | Email:kayodeakano70@gmail.com</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/KayodeAkano" target="_blank" rel="noopener noreferrer" class="social">Facebook</a>
+                <a href="https://www.instagram.com/baba_asaba20" target="_blank" rel="noopener noreferrer"
+                    class="social">Instagram</a>
+                <a href="https://x.com/baba_asaba20" target="_blank" rel="noopener noreferrer" class="social">Twitter</a>
+                <a href="https://www.tiktok.com/@goodnesskayode1" target="_blank" rel="noopener noreferrer" class="social">TikTok</a>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 1rem; color: #999;">
+                <a href="admin.html" style="color: #999; text-decoration: none;">Admin Panel</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in
+        function checkUserLogin() {
+            const currentUser = sessionStorage.getItem('currentUser');
+            if (!currentUser) {
+                // Redirect to login
+                window.location.href = 'login.html?redirect=booking.html';
+                return;
+            }
+        }
+
+        // Pre-select service based on URL parameter
+        function preselectService() {
+            const params = new URLSearchParams(window.location.search);
+            const serviceParam = params.get('service');
+            if (serviceParam) {
+                const serviceSelect = document.querySelector('select[name="service"]');
+                if (serviceSelect) {
+                    const decodedService = decodeURIComponent(serviceParam).trim();
+                    for (let option of serviceSelect.options) {
+                        if (option.value.toLowerCase() === decodedService.toLowerCase() || 
+                            option.textContent.toLowerCase() === decodedService.toLowerCase()) {
+                            option.selected = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUserLogin();
+            preselectService();
+        });
+
+        let bookingTimeRemaining = 180;
+        let bookingPaymentConfirmed = false;
+        let bookingTimerInterval = null;
+        let currentFormData = null;
+
+        const lgaOptions = {
+            'Lagos': ['Ikeja', 'Lekki', 'Surulere', 'Ikoyi', 'Epe', 'Badagry', 'Yaba'],
+            'Abuja (FCT)': ['Gwagwalada', 'Bwari', 'Kuje', 'Abaji', 'Kwali', 'AMAC'],
+            'Oyo': ['Ibadan North', 'Ibadan South-West', 'Ogbomosho North', 'Oyo East', 'Iseyin', 'Oke-Ogun'],
+            'Ogun': ['Abeokuta North', 'Ilaro', 'Sagamu', 'Ijebu Ode', 'Abeokuta South', 'Ota'],
+            'Osun': ['Osogbo', 'Ila', 'Ilesa', 'Ife North', 'Ede North', 'Ife South'],
+            'Ondo': ['Akure North', 'Akure South', 'Owo', 'Ikare', 'Ondo East', 'Okitipupa'],
+            'Ekiti': ['Ado Ekiti', 'Ikere', 'Ise/Orun', 'Oye', 'Efon', 'Ikole'],
+            'Kwara': ['Ilorin East', 'Ilorin West', 'Offa', 'Isin', 'Ekiti Kwara', 'Ilorin South'],
+            'Kogi': ['Lokoja', 'Ajaokuta', 'Idah', 'Okene', 'Koton Karfe', 'Mopa-Muro'],
+            'Niger': ['Minna', 'Suleja', 'Kontagora', 'Bida', 'Zungeru', 'Lapai'],
+            'Nasarawa': ['Lafia', 'Akwanga', 'Keffi', 'Kokona', 'Doma', 'Wamba'],
+            'Plateau': ['Jos North', 'Jos South', 'Barkin Ladi', 'Pankshin', 'Mangu', 'Bassa'],
+            'Kaduna': ['Kaduna North', 'Kaduna South', 'Zaria', 'Kachia', 'Igabi', 'Chikun'],
+            'Katsina': ['Katsina', 'Daura', 'Funtua', 'Kankara', 'Jibia', 'Malumfashi'],
+            'Kano': ['Kano Municipal', 'Nasarawa', 'Gwale', 'Tarauni', 'Dala', 'Kumbotso'],
+            'Kebbi': ['Birnin Kebbi', 'Argungu', 'Yauri', 'Zuru', 'Danko', 'Aliero'],
+            'Sokoto': ['Sokoto North', 'Sokoto South', 'Gwadabawa', 'Illela', 'Tambuwal', 'Isa'],
+            'Zamfara': ['Gusau', 'Talata Mafara', 'Anka', 'Kaura Namoda', 'Birnin Magaji', 'Maradun'],
+            'Bauchi': ['Bauchi', 'Ningi', 'Azare', 'Alkaleri', 'Katagum', 'Toro'],
+            'Taraba': ['Jalingo', 'Wukari', 'Ibi', 'Takum', 'Gassol', 'Karim Lamido'],
+            'Yobe': ['Damaturu', 'Potiskum', 'Gashua', 'Nguru', 'Geidam', 'Bade'],
+            'Borno': ['Maiduguri', 'Bama', 'Damboa', 'Biu', 'Gwoza', 'Gubio'],
+            'Adamawa': ['Yola North', 'Yola South', 'Mubi North', 'Mubi South', 'Numan', 'Maiha'],
+            'Gombe': ['Gombe', 'Funakaye', 'Kaltungo', 'Dukku', 'Yamaltu Deba', 'Balanga'],
+            'Jigawa': ['Dutse', 'Hadejia', 'Gumel', 'Kazaure', 'Ringim', 'Garki'],
+            'Enugu': ['Enugu North', 'Enugu South', 'Nsukka', 'Awgu', 'Udi', 'Nkanu East'],
+            'Ebonyi': ['Abakaliki', 'Afikpo North', 'Afikpo South', 'Izzi', 'Ezza South', 'Ishielu'],
+            'Anambra': ['Awka South', 'Awka North', 'Onitsha North', 'Onitsha South', 'Nnewi North', 'Ogbaru'],
+            'Imo': ['Owerri Municipal', 'Owerri North', 'Owerri West', 'Orlu', 'Okigwe', 'Mbaitoli'],
+            'Abia': ['Umuahia North', 'Umuahia South', 'Aba North', 'Aba South', 'Isiala Ngwa North', 'Isiala Ngwa South'],
+            'Cross River': ['Calabar Municipal', 'Calabar South', 'Ogoja', 'Ikom', 'Abi', 'Akpabuyo'],
+            'Akwa Ibom': ['Uyo', 'Eket', 'Ikot Ekpene', 'Oron', 'Etinan', 'Ikono'],
+            'Rivers': ['Port Harcourt', 'Obio/Akpor', 'Okrika', 'Emohua', 'Eleme', 'Bonny'],
+            'Bayelsa': ['Yenagoa', 'Nembe', 'Ogbia', 'Brass', 'Sagbama', 'Southern Ijaw'],
+            'Delta': ['Asaba', 'Warri South', 'Udu', 'Sapele', 'Ughelli North', 'Isoko South'],
+            'Edo': ['Benin City', 'Oredo', 'Uhunmwonde', 'Esan North-East', 'Ovia South-West', 'Ikpoba-Okha'],
+            'Benue': ['Makurdi', 'Gboko', 'Otukpo', 'Vandeikya', 'Buruku', 'Apa']
+        };
+
+        function formatBookingTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function updateLGA() {
+            const state = document.querySelector('select[name="state"]').value;
+            const lgaSelect = document.querySelector('select[name="lga"]');
+            lgaSelect.innerHTML = '<option value="">Select LGA</option>';
+            if (lgaOptions[state]) {
+                lgaOptions[state].forEach(lga => {
+                    const option = document.createElement('option');
+                    option.value = lga;
+                    option.textContent = lga;
+                    lgaSelect.appendChild(option);
+                });
+            }
+        }
+
+        function copyBookingAccount() {
+            navigator.clipboard.writeText('9133480162').then(() => {
+                showToast('Account number copied!', 'success');
+            });
+        }
+
+        function openBookingBankApp() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.includes('android')) {
+                showToast('Please open your bank app and transfer ₦5,000 to account: 9133480162', 'success');
+            } else {
+                showToast('Please open your bank app and transfer ₦5,000 to account: 9133480162', 'success');
+            }
+        }
+
+        function openBookingOnlineBanking() {
+            const bankPortals = [
+                { name: 'GTBank', url: 'https://www.gtbank.com' },
+                { name: 'Access Bank', url: 'https://www.accessbankplc.com' },
+                { name: 'UBA', url: 'https://www.ubagroup.com' }
+            ];
+            let message = 'Select your bank:\n\n';
+            bankPortals.forEach((bank, index) => {
+                message += `${index + 1}. ${bank.name}\n`;
+            });
+            const choice = prompt(message, '1');
+            if (choice && parseInt(choice) > 0 && parseInt(choice) <= bankPortals.length) {
+                window.open(bankPortals[parseInt(choice) - 1].url, '_blank');
+            }
+        }
+
+        function startBookingPayment() {
+            const form = document.getElementById('bookingForm');
+            if (!form.reportValidity()) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            document.getElementById('startPaymentBtn').style.display = 'none';
+            document.getElementById('paymentTimerBox').style.display = 'block';
+            document.getElementById('paymentDetailsBox').style.display = 'block';
+            document.getElementById('paymentConfirmBtn').style.display = 'block';
+
+            bookingTimeRemaining = 180;
+            bookingPaymentConfirmed = false;
+
+            bookingTimerInterval = setInterval(() => {
+                bookingTimeRemaining--;
+                document.getElementById('bookingTimerDisplay').textContent = formatBookingTime(bookingTimeRemaining);
+
+                if (bookingTimeRemaining <= 0) {
+                    clearInterval(bookingTimerInterval);
+                    expireBookingPayment();
+                }
+            }, 1000);
+        }
+
+        function expireBookingPayment() {
+            document.getElementById('paymentTimerBox').innerHTML = `
+                <p style="margin: 0; font-size: 0.85rem;">❌ Payment Time Expired</p>
+                <div style="font-size: 1.8rem; font-weight: 700; color: #666; margin: 0.5rem 0; font-family: 'Courier New', monospace;">00:00</div>
+            `;
+            document.getElementById('paymentDetailsBox').style.display = 'none';
+            document.getElementById('paymentConfirmBtn').style.display = 'none';
+            document.getElementById('startPaymentBtn').style.display = 'block';
+            document.getElementById('startPaymentBtn').textContent = '💳 Retry Payment (Account Expired)';
+        }
+
+        function confirmBookingPayment() {
+            bookingPaymentConfirmed = true;
+            clearInterval(bookingTimerInterval);
+
+            document.getElementById('paymentTimerBox').innerHTML = `
+                <p style="margin: 0; font-size: 0.85rem;">✅ Payment Confirmed</p>
+                <div style="font-size: 1.8rem; font-weight: 700; color: white; margin: 0.5rem 0; font-family: 'Courier New', monospace;">✓ Confirmed</div>
+            `;
+            document.getElementById('paymentDetailsBox').style.display = 'none';
+            document.getElementById('paymentConfirmBtn').style.display = 'none';
+            document.getElementById('startPaymentBtn').style.display = 'none';
+            document.getElementById('submitBookingBtn').style.display = 'block';
+            
+            showToast('Payment confirmed! Now click Complete Booking to finish.', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!bookingPaymentConfirmed) {
+                showToast('Please complete the payment first', 'error');
+                return;
+            }
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Booking...';
+
+            const formData = new FormData(this);
+            const emailData = {
+                "_subject": "✅ BOOKING CONFIRMED - JOKE GLAMS",
+                "Booking Confirmation": "Payment Received & Booking Secured",
+                "Customer Name": formData.get('fullname'),
+                "Email Address": formData.get('email'),
+                "Phone Number": formData.get('phone'),
+                "Location": `${formData.get('address')}, ${formData.get('city')}, ${formData.get('lga')}, ${formData.get('state')} State`,
+                "Service Requested": formData.get('service'),
+                "Booking Date": formData.get('date'),
+                "Booking Time": formData.get('time'),
+                "Deposit Paid": "₦5,000.00",
+                "Payment Confirmed": "Yes",
+                "Additional Notes": formData.get('notes') || 'None',
+                "_replyto": formData.get('email')
+            };
+
+            fetch("https://formsubmit.co/ajax/kayodeakano70@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(emailData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    showToast('Booking confirmed! Confirmation sent to your email.', 'success');
+                    this.reset();
+                    document.getElementById('startPaymentBtn').style.display = 'block';
+                    document.getElementById('submitBookingBtn').style.display = 'none';
+                    document.getElementById('paymentTimerBox').style.display = 'none';
+                    bookingPaymentConfirmed = false;
+                    bookingTimeRemaining = 180;
+                } else {
+                    throw new Error('Failed to send booking.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                showToast('An error occurred. Please try again.', 'error');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            });
+        });
+    </script>
+</body>
+
+</html>

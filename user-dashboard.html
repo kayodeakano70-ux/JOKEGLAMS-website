@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - JOKE GLAMS</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .dashboard-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-card h2 {
+            color: var(--primary-color);
+            margin: 0 0 1rem 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-row {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #999;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .orders-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .order-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .order-item-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-detail-label {
+            color: #999;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .order-detail-value {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .order-status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-status.ready {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .order-status.returned {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .track-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .track-btn:hover {
+            background: var(--dark-color);
+            transform: translateY(-2px);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+            background: var(--light-color);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-item-header {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .dashboard-header h1 {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="JBP Logo" class="logo-img">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="search.html">🔍 Search</a></li>
+                <li><a href="track-order.html">📍 Track Order</a></li>
+                <li><a href="cart.html">🛒 Cart</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>👤 My Profile</h1>
+                <p>Manage your account and track your orders</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <!-- Account Info Grid -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2>📋 Account Information</h2>
+                <div class="info-row">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value" id="displayName">--</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Email Address</div>
+                    <div class="info-value" id="displayEmail">--</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Phone Number</div>
+                    <div class="info-value" id="displayPhone">--</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Member Since</div>
+                    <div class="info-value" id="displayMemberSince">--</div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>🔔 Notification Preferences</h2>
+                <div class="info-row">
+                    <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" id="emailNotifications" checked>
+                        <span style="font-weight: 600;">📧 Email Notifications</span>
+                    </label>
+                    <p style="color: #999; font-size: 0.85rem; margin: 0.5rem 0 0 1.75rem;">Receive order & booking updates</p>
+                </div>
+                <div class="info-row">
+                    <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+                        <input type="checkbox" id="smsNotifications" checked>
+                        <span style="font-weight: 600;">📱 SMS Notifications</span>
+                    </label>
+                    <p style="color: #999; font-size: 0.85rem; margin: 0.5rem 0 0 1.75rem;">Receive text alerts when ready for pickup</p>
+                </div>
+                <button class="track-btn" onclick="savePreferences()" style="width: 100%; margin-top: 1.5rem;">💾 Save Preferences</button>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="section-title">📦 Your Orders</div>
+        <div id="ordersSection">
+            <div class="empty-message">Loading your orders...</div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div class="section-title">📅 Your Bookings</div>
+        <div id="bookingsSection">
+            <div class="empty-message">Loading your bookings...</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 JOKE GLAMS. All rights reserved.</p>
+            <p>Contact: +234 8036355380 | Email: kayodeakano70@gmail.com</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/KayodeAkano" target="_blank" rel="noopener noreferrer" class="social">Facebook</a>
+                <a href="https://www.instagram.com/baba_asaba20" target="_blank" rel="noopener noreferrer" class="social">Instagram</a>
+                <a href="https://x.com/baba_asaba20" target="_blank" rel="noopener noreferrer" class="social">Twitter</a>
+                <a href="https://www.tiktok.com/@goodnesskayode1" target="_blank" rel="noopener noreferrer" class="social">TikTok</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('rememberedUser');
+            showToast('Logged out successfully! 👋', 'success');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                container.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem;';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                background: ${type === 'success' ? '#10b981' : '#ef4444'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease;
+                display: flex;
+                gap: 0.75rem;
+                align-items: center;
+            `;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function formatDate(date) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(date).toLocaleDateString('en-US', options);
+        }
+
+        function savePreferences() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (!currentUser) {
+                showToast('Please log in first', 'error');
+                return;
+            }
+
+            currentUser.preferences = {
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                smsNotifications: document.getElementById('smsNotifications').checked
+            };
+
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+            // Also update in localStorage
+            const users = JSON.parse(localStorage.getItem('jbpUsers')) || [];
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex >= 0) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('jbpUsers', JSON.stringify(users));
+            }
+
+            showToast('Preferences saved successfully! ✅', 'success');
+        }
+
+        function loadUserData() {
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                showToast('Please log in first', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                return;
+            }
+
+            // Display user info
+            document.getElementById('displayName').textContent = currentUser.fullname;
+            document.getElementById('displayEmail').textContent = currentUser.email;
+            document.getElementById('displayPhone').textContent = currentUser.phone;
+            document.getElementById('displayMemberSince').textContent = formatDate(currentUser.createdDate);
+
+            // Load preferences
+            if (currentUser.preferences) {
+                document.getElementById('emailNotifications').checked = currentUser.preferences.emailNotifications;
+                document.getElementById('smsNotifications').checked = currentUser.preferences.smsNotifications;
+            }
+
+            // Load orders for this user
+            loadUserOrders(currentUser.email);
+
+            // Load bookings for this user
+            loadUserBookings(currentUser.email);
+        }
+
+        function loadUserOrders(userEmail) {
+            const orders = JSON.parse(localStorage.getItem('jbpOrders')) || [];
+            const userOrders = orders.filter(o => o.email === userEmail);
+            const ordersSection = document.getElementById('ordersSection');
+
+            if (userOrders.length === 0) {
+                ordersSection.innerHTML = '<div class="empty-message">No orders yet. <a href="shop.html" style="color: var(--primary-color); font-weight: 600;">Start shopping!</a></div>';
+                return;
+            }
+
+            ordersSection.innerHTML = userOrders.map(order => {
+                let statusClass = '';
+                if (order.status === 'Ready for Pickup') statusClass = 'ready';
+                if (order.status === 'Returned to Company') statusClass = 'returned';
+                if (order.status === 'Delivered') statusClass = 'completed';
+
+                return `
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <div class="order-detail">
+                                <div class="order-detail-label">Tracking ID</div>
+                                <div class="order-detail-value">${order.trackingId}</div>
+                            </div>
+                            <div class="order-detail">
+                                <div class="order-detail-label">Total Amount</div>
+                                <div class="order-detail-value" style="color: var(--primary-color);">₦${order.totalAmount.toLocaleString()}</div>
+                            </div>
+                            <span class="order-status ${statusClass}">${order.status}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                            <div>
+                                <span style="color: #999;">Order Date:</span>
+                                <span style="color: var(--text-color); font-weight: 600;">${formatDate(order.orderDate)}</span>
+                            </div>
+                            <div>
+                                <span style="color: #999;">Delivery Address:</span>
+                                <span style="color: var(--text-color); font-weight: 600;">${order.address}</span>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <span style="color: #999; font-size: 0.9rem;">Items: </span>
+                            <span style="color: var(--text-color); font-weight: 600;">${order.items.map(i => `${i.name} (x${i.quantity})`).join(', ')}</span>
+                        </div>
+                        <a href="track-order.html" class="track-btn" onclick="trackOrder('${order.trackingId}')">🔍 Track This Order</a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadUserBookings(userEmail) {
+            const bookings = JSON.parse(localStorage.getItem('jbpBookings')) || [];
+            const userBookings = bookings.filter(b => b.email === userEmail);
+            const bookingsSection = document.getElementById('bookingsSection');
+
+            if (userBookings.length === 0) {
+                bookingsSection.innerHTML = '<div class="empty-message">No bookings yet. <a href="booking.html" style="color: var(--primary-color); font-weight: 600;">Book a service!</a></div>';
+                return;
+            }
+
+            bookingsSection.innerHTML = userBookings.map(booking => {
+                let statusClass = '';
+                if (booking.status === 'Confirmed') statusClass = 'completed';
+                if (booking.status === 'Pending') statusClass = '';
+
+                return `
+                    <div class="order-item" style="border-left-color: #17a2b8;">
+                        <div class="order-item-header">
+                            <div class="order-detail">
+                                <div class="order-detail-label">Service</div>
+                                <div class="order-detail-value">${booking.serviceType}</div>
+                            </div>
+                            <div class="order-detail">
+                                <div class="order-detail-label">Deposit</div>
+                                <div class="order-detail-value" style="color: var(--primary-color);">₦${booking.depositAmount ? booking.depositAmount.toLocaleString() : '5,000'}</div>
+                            </div>
+                            <span class="order-status ${statusClass}">${booking.status || 'Pending'}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                            <div>
+                                <span style="color: #999;">Date:</span>
+                                <span style="color: var(--text-color); font-weight: 600;">${booking.bookingDate}</span>
+                            </div>
+                            <div>
+                                <span style="color: #999;">Time:</span>
+                                <span style="color: var(--text-color); font-weight: 600;">${booking.bookingTime}</span>
+                            </div>
+                            <div>
+                                <span style="color: #999;">Location:</span>
+                                <span style="color: var(--text-color); font-weight: 600;">${booking.city}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function trackOrder(trackingId) {
+            sessionStorage.setItem('trackingId', trackingId);
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+</body>
+
+</html>
